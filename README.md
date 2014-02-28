@@ -13,6 +13,8 @@ PCL(and its dependency: Boost, Eigen, Flann, VTK, and etc)
 
 FLTK for GUI App
 
+OpenMP(Optional)
+
 Build:
 ------
   $ git clone git clone git@github.com:KMilhan/Laser_Cloud_Viewer.git
