@@ -26,3 +26,7 @@ Build:
   $ cmake ..
 
   $ make
+
+
+
+Contact: kimmilhan@gmail.com
