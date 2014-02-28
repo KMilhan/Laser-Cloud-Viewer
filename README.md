@@ -6,13 +6,13 @@ View, Merge, Segment, Noise Remove Laser Scanned Point Cloud. Based on PCL and i
 How To Use
 ==========
 Dependency:
-
+-----------
 PCL(and its dependency: Boost, Eigen, Flann, VTK, and etc)
 
 FLTK for GUI App
 
 Build:
-
+------
   $ git clone git clone git@github.com:KMilhan/Laser_Cloud_Viewer.git
 
   $ cd Laswer_Cloud_Viewer
