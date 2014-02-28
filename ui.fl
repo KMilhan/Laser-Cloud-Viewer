@@ -1,0 +1,278 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0302 
+header_name {.h} 
+code_name {.cxx}
+class laserApp {open
+} {
+  decl {model cloud_model;} {public local
+  }
+  decl {int g_meank; float g_stddev ;} {selected private local
+  }
+  decl {float g_bottom; float g_top;} {private local
+  }
+  decl {float g_leaf_size; int g_max_icp;} {private local
+  }
+  decl {float g_voxel_leaf; int g_seg_max_iter; int g_dist;} {private local
+  }
+  decl {double g_cluter_tol; int g_min_clu; int g_max_clu;} {private local
+  }
+  Function {laserApp()} {open
+  } {
+    code {} {}
+    Fl_Window basicWindow {
+      label {Laserviewer Control Panel} open
+      xywh {693 426 225 520} type Double hide
+    } {
+      Fl_Text_Display {} {
+        label {Laser Viewer}
+        xywh {45 30 135 5}
+      }
+      Fl_Text_Display {} {
+        label CAU
+        xywh {40 443 150 5}
+      }
+      Fl_Button open_button {
+        label {Open Cloud Files...}
+        callback {log("Choose");
+log("Choose files(*.txt, *.pcd)");
+std::vector<std::string> file_paths;
+Fl_File_Chooser chooser(".",                        // directory
+                            "*",                        // filter
+                            Fl_File_Chooser::MULTI,     // chooser type
+                            "Choose Point Cloud Files");        // title
+    chooser.show();
+    while(chooser.shown())
+        { Fl::wait(); }
+
+    // User hit cancel?
+    if ( chooser.value() == NULL )
+        { log("User hit 'Cancel'"); open_button -> label("Open Cloud Files..."); return; }
+
+	std::string single_choice(chooser.value());
+	file_paths.push_back(single_choice);
+    // Multiple files? Show all of them
+    if ( chooser.count() > 1 ) {
+        for ( int t=1; t<=chooser.count(); t++ ) {
+            fprintf(stderr, " VALUE[%d]: '%s'\\n", t, chooser.value(t));
+            std::string temp_path(chooser.value(t));
+            file_paths.push_back(temp_path);
+        }
+    }
+
+
+log("Opening Files....");
+this->cloud_model. open_files(file_paths);
+
+open_button -> label("Open Cloud Files...");
+log("File Opened Done.");}
+        xywh {15 49 200 35} labeltype EMBOSSED_LABEL
+      }
+      Fl_Button {} {
+        label {Register Clouds}
+        callback {log("Registering....");
+cloud_model.registration(g_bottom, g_top, g_leaf_size, g_max_icp);
+std::stringstream ss;
+log(ss.str().c_str());}
+        xywh {15 116 200 35} labeltype EMBOSSED_LABEL
+      }
+      Fl_Button {} {
+        label {Noise Cancel Clouds}
+        callback {log("Noise Removing....");
+int count = cloud_model.noise_cancel(this->g_meank, this->g_stddev);
+std::stringstream ss;
+ss<<"Removed "<<count<<" Points.";
+log(ss.str().c_str());}
+        xywh {15 184 200 35} labeltype EMBOSSED_LABEL
+      }
+      Fl_Button {} {
+        label {Segment Cloud}
+        callback {log("Clustering....");
+cloud_model.segmentation(g_leaf_size, g_seg_max_iter, g_dist, g_cluter_tol, g_min_clu, g_max_clu);
+std::stringstream ss;
+ss<<"Segmenataion Done.";
+log(ss.str().c_str());}
+        xywh {15 251 200 35} labeltype EMBOSSED_LABEL
+      }
+      Fl_Button {} {
+        label {Save Cloud Files...}
+        callback {log("Choose");
+
+std::string file_path;
+Fl_File_Chooser chooser(".",                        // directory
+                            "*",                        // filter
+                            Fl_File_Chooser::CREATE,     // chooser type
+                            "PCD File SAVE");        // title
+    chooser.show();
+    while(chooser.shown())
+        { Fl::wait(); }
+
+    // User hit cancel?
+    if ( chooser.value() == NULL )
+        { log("User hit 'Cancel'"); 
+        return; }
+	else
+	{
+	std::string temp(chooser.value());
+	file_path = temp;
+	}
+
+log("Saving....");
+cloud_model.save_files(file_path);
+std::stringstream ss;
+ss<<"Save Done.";
+log(ss.str().c_str());}
+        xywh {15 319 200 35} labeltype EMBOSSED_LABEL
+      }
+      Fl_Button {} {
+        label {Visualize Current Clouds}
+        callback {cloud_model.visualize_cloud();}
+        xywh {15 381 200 35} labeltype EMBOSSED_LABEL
+      }
+      Fl_Text_Display logWidget {
+        label {Welcome.}
+        xywh {10 501 210 10} color 96 selection_color 14 labelfont 4 labelsize 12 labelcolor 59
+      }
+    }
+    Fl_Window advancedWindow {
+      label {Laserviewer Advanced Control} open
+      xywh {381 450 350 725} type Double hide
+    } {
+      Fl_Text_Display {} {
+        label {Advanced Values}
+        xywh {102 30 135 4}
+      }
+      Fl_Spinner meank {
+        label {Noise Cancel MeanK}
+        callback {this->g_meank = meank->value();
+std::string temp = "set MeanK value to ";
+std::stringstream ss;
+ss << temp << g_meank;
+log(ss.str().c_str());}
+        xywh {225 52 110 37} maximum 450 value 50
+        code0 {this->g_meank = meank->value();}
+      }
+      Fl_Spinner stddev {
+        label {Noise Cancel Stddev}
+        callback {this->g_stddev = (float) stddev->value();
+std::string temp = "set stddev value to ";
+std::stringstream ss;
+ss << temp << g_stddev;
+log(ss.str().c_str());}
+        xywh {225 106 110 37} type Float minimum 0.001 maximum 20 step 0.01
+        code0 {this->g_stddev = (float) stddev->value();}
+      }
+      Fl_Spinner bottom {
+        label {Registration Bottom Cut}
+        callback {this->g_bottom = (float) bottom->value();
+std::string temp = "set min cut value to ";
+std::stringstream ss;
+ss << temp << g_bottom;
+log(ss.str().c_str());}
+        xywh {225 161 110 37} type Float minimum -5000 step 20 value 100
+        code0 {this->g_bottom = (float) bottom->value();}
+      }
+      Fl_Spinner top {
+        label {Registration Top Cut}
+        callback {this->g_top = (float) top->value();
+std::string temp = "set top cut value to ";
+std::stringstream ss;
+ss << temp << g_top;
+log(ss.str().c_str());}
+        xywh {225 215 110 37} type Float minimum -6000 maximum 26000 step 20 value 8000
+        code0 {this->g_top = (float) top->value();}
+      }
+      Fl_Spinner leaf_size {
+        label {Registration Leaf Size}
+        callback {this->g_leaf_size = (float) leaf_size->value();
+std::string temp = "set leaf size value to ";
+std::stringstream ss;
+ss << temp << g_leaf_size;
+log(ss.str().c_str());}
+        xywh {225 270 110 37} type Float maximum 500 step 0.1 value 80
+        code0 {this->g_leaf_size = (float) leaf_size->value();}
+      }
+      Fl_Spinner max_icp {
+        label {Registration Max ICP Iteration \#}
+        callback {this->g_max_icp =  max_icp->value();
+std::string temp = "set max icp iter value to ";
+std::stringstream ss;
+ss << temp << g_max_icp;
+log(ss.str().c_str());}
+        xywh {225 325 110 37} maximum 450 value 50
+        code0 {this->g_max_icp =  max_icp->value();}
+      }
+      Fl_Spinner voxel_leaf {
+        label {Segmentation Voxel Grid Size}
+        callback {this->g_voxel_leaf = (float)voxel_leaf->value();
+std::string temp = "set voxel leaf value to ";
+std::stringstream ss;
+ss << temp << g_voxel_leaf;
+log(ss.str().c_str());}
+        xywh {225 379 110 37} type Float maximum 450 step 0.1 value 10
+        code0 {this->g_voxel_leaf = (float)voxel_leaf->value();}
+      }
+      Fl_Spinner seg_max_iter {
+        label {Segmentation Max Iteration \#}
+        callback {this->g_seg_max_iter = (float)seg_max_iter->value();
+std::string temp = "set seg max iter value to ";
+std::stringstream ss;
+ss << temp << g_seg_max_iter;
+log(ss.str().c_str());}
+        xywh {225 434 110 37} maximum 450 value 256
+        code0 {this->g_seg_max_iter = (float)seg_max_iter->value();}
+      }
+      Fl_Spinner dist {
+        label {Segmentation Distance Thresh}
+        callback {this->g_dist = (int)dist->value();
+std::string temp = "set distance thresh to ";
+std::stringstream ss;
+ss << temp << g_dist;
+log(ss.str().c_str());}
+        xywh {225 489 110 37} maximum 25000 value 200
+        code0 {this->g_dist = dist->value();}
+      }
+      Fl_Spinner cluster_tol {
+        label {Segmentation Cluster Tolerance}
+        callback {this->g_cluter_tol = (double)cluster_tol->value();
+std::string temp = "set cluster tol value to ";
+std::stringstream ss;
+ss << temp << g_cluter_tol;
+log(ss.str().c_str());}
+        xywh {225 543 110 37} type Float maximum 50000 step 0.1 value 200
+        code0 {this->g_cluter_tol = (double)cluster_tol->value();}
+      }
+      Fl_Spinner min_clu {
+        label {Segmentation Min Cluster Size}
+        callback {this->g_min_clu = min_clu->value();
+std::string temp = "set min clusters value to ";
+std::stringstream ss;
+ss << temp << g_min_clu;
+log(ss.str().c_str());}
+        xywh {225 598 110 37} maximum 25000 value 100
+        code0 {this->g_min_clu = min_clu->value();}
+      }
+      Fl_Spinner max_clu {
+        label {Segmentation Max Cluster Size}
+        callback {this->g_max_clu = max_clu->value();
+std::string temp = "set max clusters value to ";
+std::stringstream ss;
+ss << temp << g_max_clu;
+log(ss.str().c_str());}
+        xywh {225 653 110 37} maximum 600000 value 25000
+        code0 {this->g_max_clu = max_clu->value();}
+      }
+    }
+    code {printf("Hello, World!\\n");} {}
+  }
+  Function {log(const char* text)} {open private
+  } {
+    code {logWidget->label("");
+logWidget->label(text);} {}
+  }
+  Function {} {open
+  } {
+    code {laserApp app;
+app.basicWindow->show(argc, argv);
+app.advancedWindow->show(argc, argv);} {}
+  }
+} 
