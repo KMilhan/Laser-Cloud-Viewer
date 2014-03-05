@@ -85,8 +85,8 @@ Fl_File_Chooser chooser(".",                        // directory
         { Fl::wait(); }
 
     // User hit cancel?
-    if ( chooser.value() == NULL )
-        { log("User hit 'Cancel'"); 
+    if ( chooser.value() == NULL ) {
+        log("User hit 'Cancel'");
         return; }
 	else
 	{

@@ -17,7 +17,7 @@ OpenMP(Optional)
 
 Build:
 ------
-  $ git clone git clone git@github.com:KMilhan/Laser_Cloud_Viewer.git
+  $ git clone git@github.com:KMilhan/Laser_Cloud_Viewer.git
 
   $ cd Laswer_Cloud_Viewer
 

@@ -4,8 +4,10 @@
 #include "model.hpp"
 
 #include <boost/program_options.hpp>
-#include <boost/filesystem.hpp> 
-namespace po = boost::program_options;
-#include <iterator>
-using namespace std;
+#include <boost/filesystem.hpp>
 
+namespace po = boost::program_options;
+
+#include <iterator>
+
+using namespace std;
