@@ -19,7 +19,7 @@ Build:
 ------
   $ git clone git@github.com:KMilhan/Laser_Cloud_Viewer.git
 
-  $ cd Laswer_Cloud_Viewer
+  $ cd Laser_Cloud_Viewer
 
   $ mkdir build && cd build
 
