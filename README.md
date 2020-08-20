@@ -17,16 +17,18 @@ OpenMP(Optional)
 
 Build:
 ------
-  $ git clone git@github.com:KMilhan/Laser_Cloud_Viewer.git
-
+```bash
+  $ git clone git@github.com:KMilhan/Laser_Cloud_Viewer.git # Or HTTPS protocol if you wish
+```
+```bash
   $ cd Laser_Cloud_Viewer
 
   $ mkdir build && cd build
 
   $ cmake ..
 
-  $ make
-
+  $ make [-j]
+```
 
 
 Contact: kimmilhan@gmail.com
