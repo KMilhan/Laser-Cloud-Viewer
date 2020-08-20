@@ -1,7 +1,7 @@
 Laser_Cloud_Viewer
 ==================
 
-View, Merge, Segment, Noise Remove Laser Scanned Point Cloud. Based on PCL and its dependency and FLTK.
+View, Merge, Segment, Noise Remove Laser Scanned Point Cloud. Based on PCL and its dependencies and FLTK.
 
 Currently, parameters are fine-tuned for 3D scanned ASCII data file from "LEICA C10", though you can adjust them as you wish.
 
@@ -9,7 +9,7 @@ How To Use
 ==========
 Dependency:
 -----------
-PCL(and its dependency: Boost, Eigen, Flann, VTK, and etc)
+PCL(and its dependencies: Boost, Eigen, Flann, VTK, and more)
 
 FLTK for GUI App
 
