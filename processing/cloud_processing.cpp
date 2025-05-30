@@ -1,5 +1,12 @@
 #include "cloud_processing.hpp"
 
+float cut_min = 100.0f;
+float cut_max = 8000.0f;
+float reg_leaf_size = 100.0f;
+int noise_meanK = 50;
+float noise_stddev = 1.0f;
+int reg_iteration = 30;
+
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr
 point_get_reg_from_vector(std::vector <pcl::PointCloud<pcl::PointXYZRGB>::Ptr> source_vector, float min, float max,
                           float leaf_size, int iteration) {
@@ -41,9 +48,9 @@ point_cloud_xyz_to_xyzrgb(pcl::PointCloud<pcl::PointXYZ>::Ptr xyz_cloud) {
     for (int i = 0; i < xyz_cloud->points.size(); i++) {
         pcl::PointXYZRGB point;
         //temporal point
-        point.x = rgb_cloud->points[i].x;
-        point.y = rgb_cloud->points[i].y;
-        point.z = rgb_cloud->points[i].z;
+        point.x = xyz_cloud->points[i].x;
+        point.y = xyz_cloud->points[i].y;
+        point.z = xyz_cloud->points[i].z;
         point.r = 255;
         point.g = 255;
         point.b = 255;

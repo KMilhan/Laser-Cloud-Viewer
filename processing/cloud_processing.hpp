@@ -1,11 +1,18 @@
-#include "../typedefs.h"
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/filters/voxel_grid.h>
+#include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/registration/icp.h>
+#include <pcl/registration/transforms.h>
+#include <Eigen/Dense>
+#include <vector>
 
-static float cut_min = 100.0f;
-static float cut_max = 8000.0f;
-static float reg_leaf_size = 100.0f;
-static int noise_meanK = 50;
-static float noise_stddev = 1.0f;
-static int reg_iteration = 30;
+extern float cut_min;
+extern float cut_max;
+extern float reg_leaf_size;
+extern int noise_meanK;
+extern float noise_stddev;
+extern int reg_iteration;
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud_xyzrgb_to_xyz(pcl::PointCloud<pcl::PointXYZRGB>::Ptr rgb_cloud);
 
