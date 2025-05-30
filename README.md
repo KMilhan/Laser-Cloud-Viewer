@@ -15,6 +15,11 @@ FLTK for GUI App
 
 OpenMP(Optional)
 
+You must install PCL along with FLTK before building. On Debian-based systems,
+`sudo apt-get install libpcl-dev libfltk1.3-dev` should do the trick.
+
+KITTI dataset loader is included to parse .bin files and project points to camera images using calibration matrices.
+
 Build:
 ------
 ```bash

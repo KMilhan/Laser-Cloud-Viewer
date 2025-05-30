@@ -32,6 +32,7 @@ set(to_be_compiled
         file/opener.cpp
         simple_vis/simple_vis.cpp
         processing/cloud_processing.cpp
+        kitti/kitti_utils.cpp
         )
 
 
