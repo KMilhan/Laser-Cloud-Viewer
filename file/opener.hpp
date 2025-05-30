@@ -16,6 +16,7 @@
 #include <pcl/point_representation.h>
 
 #include <boost/tokenizer.hpp>
+#include <boost/lexical_cast.hpp>
 #include <omp.h>
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_from_txt(std::string file_path);

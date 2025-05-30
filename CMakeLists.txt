@@ -1,25 +1,24 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10)
+project(LASER_Cloud_Viewer LANGUAGES C CXX)
 
-project(LASER_Cloud_Viewer)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(PCL 1.3 REQUIRED)
+find_package(MPI REQUIRED)
 find_package(FLTK REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(OpenMP)
+find_package(Boost REQUIRED COMPONENTS thread)
 
 
-if (CMAKE_COMPILER_IS_GNUCXX)
-    message("Found GNUCXX!!!")
-    set(CMAKE_C_FLAGS “-O3 -Wall -Werror -std=c++11”) ## Optimize Parameters for GCC
-    set(CMAKE_EXE_LINKER_FLAGS "-s")  ## Strip binary for Optimization
-endif ()
-
-if (OPENMP_FOUND)
-    message("Found OPENMP!!!") ##
-    find_package(OpenMP REQUIRED) ## Only in case you have it, find it
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif ()
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    message(STATUS "Using GCC")
+    add_compile_options(-O3 -Wall -Wextra)
+endif()
+if (OpenMP_CXX_FOUND)
+    add_compile_options(${OpenMP_CXX_FLAGS})
+endif()
 
 ##PCL
 include_directories(${PCL_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
@@ -44,10 +43,10 @@ add_executable(test_segment segemt.cpp ${to_be_compiled}) ##
 add_executable(test_save save.cpp ${to_be_compiled}) ## 
 add_executable(Laser_Cloud_Viewer ui.cxx ${to_be_compiled})
 
-target_link_libraries(test ${PCL_LIBRARIES})
-target_link_libraries(test_open ${PCL_LIBRARIES})
-target_link_libraries(test_register ${PCL_LIBRARIES})
-target_link_libraries(test_noise_cancel ${PCL_LIBRARIES})
-target_link_libraries(test_segment ${PCL_LIBRARIES})
-target_link_libraries(test_save ${PCL_LIBRARIES})
-target_link_libraries(Laser_Cloud_Viewer ${PCL_LIBRARIES} ${FLTK_LIBRARIES} ${OPENGL_LIBRARIES})
+target_link_libraries(test ${PCL_LIBRARIES} Boost::thread)
+target_link_libraries(test_open ${PCL_LIBRARIES} Boost::thread)
+target_link_libraries(test_register ${PCL_LIBRARIES} Boost::thread)
+target_link_libraries(test_noise_cancel ${PCL_LIBRARIES} Boost::thread)
+target_link_libraries(test_segment ${PCL_LIBRARIES} Boost::thread)
+target_link_libraries(test_save ${PCL_LIBRARIES} Boost::thread)
+target_link_libraries(Laser_Cloud_Viewer ${PCL_LIBRARIES} ${FLTK_LIBRARIES} ${OPENGL_LIBRARIES} Boost::thread)
