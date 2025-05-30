@@ -28,35 +28,41 @@ link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 ##PCL
 
-set(to_be_compiled
-        model.cpp
-        file/opener.cpp
-        simple_vis/simple_vis.cpp
-        processing/cloud_processing.cpp
-        kitti/kitti_utils.cpp
-        )
+set(LCV_SOURCES
+    model.cpp
+    file/opener.cpp
+    simple_vis/simple_vis.cpp
+    processing/cloud_processing.cpp
+    kitti/kitti_utils.cpp
+)
+
+add_library(lcv STATIC ${LCV_SOURCES})
+target_include_directories(lcv PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(lcv PUBLIC ${PCL_LIBRARIES} Boost::thread)
 
 
-add_executable(example_app test.cpp ${to_be_compiled}) ## test executable, "laserViewer"
-add_executable(test_open visualize.cpp ${to_be_compiled}) ## visualizer
-add_executable(test_register register.cpp ${to_be_compiled}) ## visualizer
-add_executable(test_noise_cancel noise_remover.cpp ${to_be_compiled}) ## 
-add_executable(test_segment segemt.cpp ${to_be_compiled}) ## 
-add_executable(test_save save.cpp ${to_be_compiled}) ## 
-add_executable(Laser_Cloud_Viewer ui.cxx ${to_be_compiled})
+add_executable(example_app test.cpp)
+add_executable(test_open visualize.cpp)
+add_executable(test_register register.cpp)
+add_executable(test_noise_cancel noise_remover.cpp)
+add_executable(test_segment segemt.cpp)
+add_executable(test_save save.cpp)
+add_executable(Laser_Cloud_Viewer ui.cxx)
 
-target_link_libraries(example_app ${PCL_LIBRARIES} Boost::thread)
-target_link_libraries(test_open ${PCL_LIBRARIES} Boost::thread)
-target_link_libraries(test_register ${PCL_LIBRARIES} Boost::thread)
-target_link_libraries(test_noise_cancel ${PCL_LIBRARIES} Boost::thread)
-target_link_libraries(test_segment ${PCL_LIBRARIES} Boost::thread)
-target_link_libraries(test_save ${PCL_LIBRARIES} Boost::thread)
-target_link_libraries(Laser_Cloud_Viewer ${PCL_LIBRARIES} ${FLTK_LIBRARIES} ${OPENGL_LIBRARIES} Boost::thread)
+target_link_libraries(example_app lcv)
+target_link_libraries(test_open lcv)
+target_link_libraries(test_register lcv)
+target_link_libraries(test_noise_cancel lcv)
+target_link_libraries(test_segment lcv)
+target_link_libraries(test_save lcv)
+target_link_libraries(Laser_Cloud_Viewer lcv)
+
+target_link_libraries(Laser_Cloud_Viewer ${FLTK_LIBRARIES} ${OPENGL_LIBRARIES})
 
 if(ENABLE_TESTS)
     enable_testing()
-    add_executable(unit_tests tests/unit_tests.cpp ${to_be_compiled})
+    add_executable(unit_tests tests/unit_tests.cpp)
     target_include_directories(unit_tests PRIVATE third_party)
-    target_link_libraries(unit_tests ${PCL_LIBRARIES} Boost::thread)
+    target_link_libraries(unit_tests lcv)
     add_test(NAME unit_tests COMMAND unit_tests)
 endif()

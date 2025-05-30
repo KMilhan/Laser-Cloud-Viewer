@@ -67,3 +67,17 @@ TEST_CASE("point_noise_removal eliminates outliers") {
     auto filtered = point_noise_removal(cloud);
     CHECK(filtered->size() == 2);
 }
+
+TEST_CASE("point_noise_removal works on RGB clouds") {
+    noise_meanK = 1;
+    noise_stddev = 0.01f;
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PointXYZRGB p1; p1.x = 0; p1.y = 0; p1.z = 0;
+    pcl::PointXYZRGB p2; p2.x = 0.1f; p2.y = 0.1f; p2.z = 0.1f;
+    pcl::PointXYZRGB p3; p3.x = 100; p3.y = 100; p3.z = 100;
+    cloud->push_back(p1);
+    cloud->push_back(p2);
+    cloud->push_back(p3);
+    auto filtered = point_noise_removal(cloud);
+    CHECK(filtered->size() == 2);
+}
