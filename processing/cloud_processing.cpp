@@ -153,7 +153,7 @@ point_get_reg_cloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr source_cloud,
     pcl::PointCloud<pcl::PointXYZ>::Ptr icp_result(new pcl::PointCloud <pcl::PointXYZ>);
     std::vector<unsigned int> score;
     for (int i = 0; i < reg_iteration; i++) {
-        icp.setInputCloud(reduced_source);
+        icp.setInputSource(reduced_source);
         icp.setInputTarget(reduced_target);
         //set ICP
         icp.align(*reduced_source);

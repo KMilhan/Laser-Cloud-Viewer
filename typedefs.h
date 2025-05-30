@@ -10,8 +10,6 @@
 #include <boost/thread/thread.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/make_shared.hpp>
-#include <boost/timer.hpp>
-#include <boost/progress.hpp>
 
 #include <pcl/ModelCoefficients.h>
 
