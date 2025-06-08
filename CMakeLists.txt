@@ -41,7 +41,7 @@ target_include_directories(lcv PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(lcv PUBLIC ${PCL_LIBRARIES} Boost::thread)
 
 
-add_executable(example_app test.cpp)
+add_executable(demo_app demo.cpp)
 add_executable(test_open visualize.cpp)
 add_executable(test_register register.cpp)
 add_executable(test_noise_cancel noise_remover.cpp)
@@ -49,7 +49,7 @@ add_executable(test_segment segemt.cpp)
 add_executable(test_save save.cpp)
 add_executable(Laser_Cloud_Viewer ui.cxx)
 
-target_link_libraries(example_app lcv)
+target_link_libraries(demo_app lcv)
 target_link_libraries(test_open lcv)
 target_link_libraries(test_register lcv)
 target_link_libraries(test_noise_cancel lcv)

@@ -40,3 +40,14 @@ point_get_reg_from_vector(std::vector <pcl::PointCloud<pcl::PointXYZRGB>::Ptr> s
                           float leaf_size, int iteration);
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_fine_voxel(pcl::PointCloud<pcl::PointXYZRGB>::Ptr source_cloud);
+
+Eigen::Vector3f load_scale(const std::string &file_path);
+
+pcl::PointCloud<pcl::PointXYZ>::Ptr
+point_scale(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud, const Eigen::Vector3f &scale);
+
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr
+point_scale(pcl::PointCloud<pcl::PointXYZRGB>::Ptr input_cloud, const Eigen::Vector3f &scale);
+
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr
+point_cloud_xyzi_to_xyzrgb(pcl::PointCloud<pcl::PointXYZI>::Ptr cloud);

@@ -1,6 +1,8 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include "processing/cloud_processing.hpp"
+#include "file/opener.hpp"
+#include "kitti/kitti_utils.hpp"
 
 TEST_CASE("point_cut_off_floor removes outliers") {
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
@@ -80,4 +82,19 @@ TEST_CASE("point_noise_removal works on RGB clouds") {
     cloud->push_back(p3);
     auto filtered = point_noise_removal(cloud);
     CHECK(filtered->size() == 2);
+}
+
+TEST_CASE("kitti binary loads") {
+    auto cloud = loadKittiBin("../data/kitti_sample.bin");
+    CHECK(cloud->size() > 0);
+}
+
+TEST_CASE("pcd scaling works") {
+    auto rgb = point_cloud_open_pcd_file("../data/sample.pcd");
+    auto scale = load_scale("../data/scale.txt");
+    auto scaled = point_scale(rgb, scale);
+    REQUIRE(rgb->size() == scaled->size());
+    if (!rgb->empty()) {
+        CHECK(scaled->points[0].x == doctest::Approx(rgb->points[0].x * scale[0]));
+    }
 }

@@ -1,4 +1,6 @@
 #include "cloud_processing.hpp"
+#include <fstream>
+#include <algorithm>
 
 float cut_min = 100.0f;
 float cut_max = 8000.0f;
@@ -205,6 +207,67 @@ point_cloud_fine_voxel(pcl::PointCloud<pcl::PointXYZRGB>::Ptr source_cloud) {
 
     std::cout << "[Fine voxel filter] Filtered Cloud :" << source_cloud->points.size() << std::endl;
     return source_cloud;
+}
+
+Eigen::Vector3f load_scale(const std::string &file_path) {
+    std::ifstream in(file_path.c_str());
+    Eigen::Vector3f scale(1.f, 1.f, 1.f);
+    if (!in.is_open()) {
+        std::cerr << "Could not open scale file: " << file_path << std::endl;
+        return scale;
+    }
+    in >> scale[0] >> scale[1] >> scale[2];
+    return scale;
+}
+
+pcl::PointCloud<pcl::PointXYZ>::Ptr
+point_scale(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud, const Eigen::Vector3f &scale) {
+    pcl::PointCloud<pcl::PointXYZ>::Ptr out(new pcl::PointCloud<pcl::PointXYZ>);
+    out->reserve(input_cloud->size());
+    for (const auto &pt : input_cloud->points) {
+        pcl::PointXYZ p;
+        p.x = pt.x * scale[0];
+        p.y = pt.y * scale[1];
+        p.z = pt.z * scale[2];
+        out->points.push_back(p);
+    }
+    out->width = static_cast<uint32_t>(out->points.size());
+    out->height = 1;
+    return out;
+}
+
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr
+point_scale(pcl::PointCloud<pcl::PointXYZRGB>::Ptr input_cloud, const Eigen::Vector3f &scale) {
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr out(new pcl::PointCloud<pcl::PointXYZRGB>);
+    out->reserve(input_cloud->size());
+    for (const auto &pt : input_cloud->points) {
+        pcl::PointXYZRGB p = pt;
+        p.x *= scale[0];
+        p.y *= scale[1];
+        p.z *= scale[2];
+        out->points.push_back(p);
+    }
+    out->width = static_cast<uint32_t>(out->points.size());
+    out->height = 1;
+    return out;
+}
+
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr
+point_cloud_xyzi_to_xyzrgb(pcl::PointCloud<pcl::PointXYZI>::Ptr cloud) {
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr out(new pcl::PointCloud<pcl::PointXYZRGB>);
+    out->reserve(cloud->size());
+    for (const auto &pt : cloud->points) {
+        pcl::PointXYZRGB p;
+        p.x = pt.x;
+        p.y = pt.y;
+        p.z = pt.z;
+        uint8_t val = static_cast<uint8_t>(std::max(0.f, std::min(255.f, pt.intensity * 255.f)));
+        p.r = p.g = p.b = val;
+        out->points.push_back(p);
+    }
+    out->width = static_cast<uint32_t>(out->points.size());
+    out->height = 1;
+    return out;
 }
 
 
