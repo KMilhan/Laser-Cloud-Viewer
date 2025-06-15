@@ -20,9 +20,8 @@ pcl::PointCloud<pcl::PointXYZI>::Ptr loadKittiBin(const std::string &file_path) 
     return cloud;
 }
 
-std::vector<Eigen::Vector2f> projectToImagePlane(
-        const pcl::PointCloud<pcl::PointXYZI>::Ptr &cloud,
-        const Eigen::Matrix<float, 3, 4> &projection) {
+std::vector<Eigen::Vector2f> projectToImagePlane(const pcl::PointCloud<pcl::PointXYZI>::Ptr &cloud,
+                                                 const Eigen::Matrix<float, 3, 4> &projection) {
     std::vector<Eigen::Vector2f> pixels;
     for (const auto &pt : cloud->points) {
         Eigen::Vector4f vec(pt.x, pt.y, pt.z, 1.0f);

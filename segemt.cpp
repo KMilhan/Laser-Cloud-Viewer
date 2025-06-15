@@ -1,7 +1,6 @@
 #include "commandline.hpp"
 #include <sstream>
 
-
 int main(int ac, char *av[]) {
     cout << ac << "Arguments received" << endl;
 
@@ -14,11 +13,10 @@ int main(int ac, char *av[]) {
     if (ac != 7)
         cout << "Invalid arguments" << endl;
     else {
-
     }
 
     model cloud_model;
-    std::vector <string> file_path;
+    std::vector<string> file_path;
 
     for (int i = 0;; i++) {
         string temp = "./temp/" + boost::lexical_cast<std::string>(i) + ".pcd";
@@ -33,13 +31,12 @@ int main(int ac, char *av[]) {
     cout << cloud_model.open_files(file_path) << "Files" << endl;
     cout << "In segmentation..." << endl;
 
-
     if (ac == 7) {
         cout << cloud_model.segmentation();
     } else
         cout << cloud_model.segmentation();
 
-//UPDATE TEMP DIR
+    // UPDATE TEMP DIR
     for (int i = 0;; i++) {
         string temp = "./temp/" + boost::lexical_cast<std::string>(i) + ".pcd";
         boost::filesystem::path p(temp);
@@ -48,7 +45,6 @@ int main(int ac, char *av[]) {
             cout << "Deleting... " << temp << endl;
         } else
             break;
-
     }
     cout << "Saving..." << cloud_model.save_files("./temp/");
 

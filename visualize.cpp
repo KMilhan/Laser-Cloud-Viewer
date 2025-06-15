@@ -11,7 +11,7 @@ int main(int ac, char *av[]) {
         return -1;
     }
     model cloud_model;
-    std::vector <string> file_path;
+    std::vector<string> file_path;
     //////////////////////////////////////////////////
     std::cout << "DEBUG STEP: " << debug << std::endl;
     debug++;
@@ -31,8 +31,7 @@ int main(int ac, char *av[]) {
     debug++;
     //////////////////////////////////////////////////
 
-
-//UPDATE TEMP DIR
+    // UPDATE TEMP DIR
     for (int i = 0;; i++) {
         string temp = "./temp/" + boost::lexical_cast<std::string>(i) + ".pcd";
         boost::filesystem::path p(temp);
@@ -41,14 +40,13 @@ int main(int ac, char *av[]) {
             cout << "Deleting... " << temp << endl;
         } else
             break;
-
     }
     //////////////////////////////////////////////////
     std::cout << "DEBUG STEP: " << debug << std::endl;
     debug++;
     //////////////////////////////////////////////////
     cout << "Saving..." << cloud_model.save_files("./temp/");
-//UPDATE TEMP DIR
+    // UPDATE TEMP DIR
     //////////////////////////////////////////////////
     std::cout << "DEBUG STEP: " << debug << std::endl;
     debug++;

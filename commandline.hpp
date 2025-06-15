@@ -1,10 +1,10 @@
-#include "typedefs.h"
 #include "file/opener.hpp"
-#include "simple_vis/simple_vis.hpp"
 #include "model.hpp"
+#include "simple_vis/simple_vis.hpp"
+#include "typedefs.h"
 
-#include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
 
 namespace po = boost::program_options;
 

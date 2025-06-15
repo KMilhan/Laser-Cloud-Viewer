@@ -24,12 +24,12 @@ int main(int ac, char *av[]) {
         leaf_size_str >> leaf_size;
         iteration_str >> iteration;
 
-        cout << "min" << min << "max" << max << "leaf_size" << leaf_size << "iteration" << iteration << endl;
+        cout << "min" << min << "max" << max << "leaf_size" << leaf_size << "iteration" << iteration
+             << endl;
     }
 
-
     model cloud_model;
-    std::vector <string> file_path;
+    std::vector<string> file_path;
 
     for (int i = 0;; i++) {
         string temp = "./temp/" + boost::lexical_cast<std::string>(i) + ".pcd";
@@ -39,12 +39,10 @@ int main(int ac, char *av[]) {
             cout << file_path.back() << endl; // find until last MK_i file then break.
         } else
             break;
-
     }
     cout << "Opening..." << endl;
     cout << cloud_model.open_files(file_path) << "Files" << endl;
     cout << "In Registration..." << endl;
-
 
     if (ac == 5) {
         cout << cloud_model.registration(min, max, leaf_size, iteration);
@@ -59,7 +57,6 @@ int main(int ac, char *av[]) {
             cout << "Deleting... " << temp << endl;
         } else
             break;
-
     }
     cout << "Saving..." << cloud_model.save_files("./temp/");
 

@@ -35,5 +35,17 @@ Build:
   $ make [-j]
 ```
 
+Automation
+----------
+This repository includes a `Makefile` providing common tasks:
+
+```bash
+make            # build the project
+make test       # run unit tests
+make lint       # run cpplint on sources
+make format     # apply clang-format
+make clean      # remove the build directory
+```
+
 
 Contact: kimmilhan@gmail.com
