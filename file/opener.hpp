@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <iterator>
 
-#include <pcl/io/io.h>
+#include <pcl/common/io.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/vtk_io.h>
 #include <pcl/io/vtk_lib_io.h>

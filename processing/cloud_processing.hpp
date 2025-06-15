@@ -3,7 +3,7 @@
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/filters/statistical_outlier_removal.h>
 #include <pcl/registration/icp.h>
-#include <pcl/registration/transforms.h>
+#include <pcl/common/transforms.h>
 #include <Eigen/Dense>
 #include <vector>
 

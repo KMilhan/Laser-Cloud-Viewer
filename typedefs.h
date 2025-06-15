@@ -35,7 +35,7 @@
 #include <pcl/search/search.h>
 #include <pcl/search/kdtree.h>
 
-#include <pcl/io/io.h>
+#include <pcl/common/io.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/vtk_io.h>
 #include <pcl/io/vtk_lib_io.h>
@@ -50,7 +50,7 @@
 
 #include <pcl/registration/icp.h>
 #include <pcl/registration/icp_nl.h>
-#include <pcl/registration/transforms.h>
+#include <pcl/common/transforms.h>
 
 #include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
