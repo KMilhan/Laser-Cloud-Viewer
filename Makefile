@@ -20,7 +20,7 @@ test: build
 
 # Lint source files with cpplint
 lint:
-	@cpplint $(SOURCES) || true
+	@clang-tidy $(SOURCES) || true
 
 # Format source files with clang-format in place
 format:
