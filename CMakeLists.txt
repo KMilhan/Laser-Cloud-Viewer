@@ -18,7 +18,7 @@ option(ENABLE_TESTS "Build unit tests with doctest" ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(PCL 1.15 REQUIRED)
+find_package(PCL 1.14 REQUIRED)
 find_package(MPI REQUIRED)
 find_package(FLTK REQUIRED)
 find_package(OpenGL REQUIRED)
