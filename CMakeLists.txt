@@ -34,7 +34,7 @@ if (OpenMP_CXX_FOUND)
     add_compile_options(${OpenMP_CXX_FLAGS})
 endif()
 
-## PCL include directories are provided by the imported targets
+## PCL headers and libraries resolved through PCLConfig
 
 set(LCV_SOURCES
     model.cpp
