@@ -1,8 +1,7 @@
 .PHONY: all build test lint format clean
 
 BUILD_DIR ?= build
-PCL_DIR ?= $(CURDIR)/third_party/pcl
-CMAKE_FLAGS ?= -DCMAKE_BUILD_TYPE=Release -DPCL_DIR=$(PCL_DIR)
+CMAKE_FLAGS ?= -DCMAKE_BUILD_TYPE=Release
 
 # Find source files excluding third_party
 SOURCES := $(shell find . -path ./third_party -prune -o \( -name '*.cpp' -o -name '*.hpp' -o -name '*.h' \) -print)
