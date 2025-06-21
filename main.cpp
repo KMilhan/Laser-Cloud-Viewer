@@ -1,10 +1,11 @@
 #include "ui.h"
 
 int main(int argc, char **argv) {
-    // initialize class
+    // initialize UI application
     laserApp app;
-    app.show;
+    app.basicWindow->show(argc, argv);
+    app.advancedWindow->show(argc, argv);
     std::cout << "Initialized" << std::endl;
 
-    return 0;
+    return Fl::run();
 }

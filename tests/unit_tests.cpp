@@ -70,6 +70,19 @@ TEST_CASE("point_cloud_xyz_to_xyzrgb copies coordinates and assigns white") {
     CHECK(rgb->points[0].b == 255);
 }
 
+TEST_CASE("open_point_cloud_xyz_to_xyzrgb wraps XYZ input") {
+    pcl::PointCloud<pcl::PointXYZ>::Ptr xyz(new pcl::PointCloud<pcl::PointXYZ>);
+    xyz->push_back(pcl::PointXYZ(1.0f, 2.0f, 3.0f));
+    auto rgb = open_point_cloud_xyz_to_xyzrgb(xyz);
+    REQUIRE(rgb->size() == 1);
+    CHECK(rgb->points[0].x == doctest::Approx(1.f));
+    CHECK(rgb->points[0].y == doctest::Approx(2.f));
+    CHECK(rgb->points[0].z == doctest::Approx(3.f));
+    CHECK(rgb->points[0].r == 255);
+    CHECK(rgb->points[0].g == 255);
+    CHECK(rgb->points[0].b == 255);
+}
+
 TEST_CASE("point_downsample reduces duplicates") {
     reg_leaf_size = 1.0f;
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
