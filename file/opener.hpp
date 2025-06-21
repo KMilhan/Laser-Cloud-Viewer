@@ -19,6 +19,9 @@
 #include <boost/tokenizer.hpp>
 #include <omp.h>
 
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr
+open_point_cloud_xyz_to_xyzrgb(pcl::PointCloud<pcl::PointXYZ>::Ptr xyz_cloud);
+
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_from_txt(std::string file_path);
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_open_pcd_file(std::string file_path);
