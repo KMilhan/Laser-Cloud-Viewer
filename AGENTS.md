@@ -108,24 +108,18 @@ Follow this process precisely, always prioritizing clean, well-tested code over 
 Always write one test at a time, make it run, then improve structure. Always run all the tests (except long-running
 tests) each time.
 
-# Python-specific
+# Scripting-specific
 
-- Prefer function style over class style.
-- Prefer dependency injection style over managed resource or singleton.
-- When threading seems attractive, consider using `asyncio`.
-- When compute-heavy operation is needed, think if avoiding GIL
-  and awaiting is possible instead of forking Python processes.
-    - Prefer `numba` for compute-heavy operations over Cython, consider
-      deeply about SIMD/MIMD, accelerated via GPU/accelerator operation.
-    - Prefer array or tensor -based data structure for
-      internal communication over library-specific data structure, for example, `Pillow` image data.
-- Follow PEP over traditions, for example, strict `pyproject.toml` structure.
-- All configurations for tools are managed inside `pyproject.toml` instead of dedicated files per tools unless
-  inevitable.
-  Dependencies and virtual environments are managed via `uv`, and build must done by `hatchling` but `uv build` or
-  `pip install` must play with it.
+- Prefer `Makefile`-is-everything approach
 
-- Follow Zen of Python.
+# C++ -specific
+
+- Prefer the latest C++ standard over Boost.
+- Prefer OpenMP over complex performance gain for the sake of code simplicity.
+- Readability matters
+- Build reproducibility matters.
+- Don't forget C++ is high-level language and is portable.
+- `doctest` is our choice of testing framework.
 
 # Rust-specific
 
@@ -135,10 +129,7 @@ unwrap_or, etc.) instead of pattern matching with if let or match when possible.
 # Commit
 
 - Use colon-styled gitmoji commit message. All messages are written in EN-US.
-- Run tests must be run against built artifact with `pytest`, so we can check if dev-time dependencies are included or
-  not. For example, running `uv sync && uv run pytest` will include all development dependencies such as typing
-  libraries.
-- If installing dependencies fails (for example, due to network issues) or `pytest` is unavailable, note the failure in
+- If installing dependencies fails (for example, due to network issues), note the failure in
   your PR summary.
 
 # Branch naming
