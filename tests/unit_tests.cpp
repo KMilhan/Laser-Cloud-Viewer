@@ -152,3 +152,32 @@ TEST_CASE("pcd scaling works") {
         }
     }
 }
+TEST_CASE("multiple clouds project to multiple image spaces") {
+    pcl::PointCloud<pcl::PointXYZI>::Ptr cloudA(new pcl::PointCloud<pcl::PointXYZI>);
+    pcl::PointCloud<pcl::PointXYZI>::Ptr cloudB(new pcl::PointCloud<pcl::PointXYZI>);
+
+    cloudA->push_back({1.f, 2.f, 1.f, 0.f});
+    cloudA->push_back({2.f, 1.f, 1.f, 0.f});
+    cloudB->push_back({3.f, 4.f, 2.f, 0.f});
+
+    Eigen::Matrix<float, 3, 4> projA = Eigen::Matrix<float, 3, 4>::Zero();
+    projA(0, 0) = 1.f;
+    projA(1, 1) = 1.f;
+    projA(2, 2) = 1.f;
+
+    Eigen::Matrix<float, 3, 4> projB = projA;
+    projB(0, 3) = 2.f; // translate x
+
+    auto pixA = projectToImagePlane(cloudA, projA);
+    auto pixB = projectToImagePlane(cloudB, projB);
+
+    REQUIRE(pixA.size() == 2);
+    REQUIRE(pixB.size() == 1);
+
+    CHECK(pixA[0].x() == doctest::Approx(1.f));
+    CHECK(pixA[0].y() == doctest::Approx(2.f));
+    CHECK(pixA[1].x() == doctest::Approx(2.f));
+    CHECK(pixA[1].y() == doctest::Approx(1.f));
+    CHECK(pixB[0].x() == doctest::Approx(2.5f));
+    CHECK(pixB[0].y() == doctest::Approx(2.f));
+}
