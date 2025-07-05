@@ -1,28 +1,9 @@
 #include "opener.hpp"
+#include "processing/cloud_processing.hpp"
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr
 open_point_cloud_xyz_to_xyzrgb(pcl::PointCloud<pcl::PointXYZ>::Ptr xyz_cloud) {
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr rgb_cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-    // assign return cloud
-#pragma omp parallel for
-    for (int i = 0; i < xyz_cloud->points.size(); i++) {
-        pcl::PointXYZRGB point;
-        // copy coordinates from source cloud
-        point.x = xyz_cloud->points[i].x;
-        point.y = xyz_cloud->points[i].y;
-        point.z = xyz_cloud->points[i].z;
-        point.r = 255;
-        point.g = 255;
-        point.b = 255;
-#pragma omp critical(dataupdate)
-        {
-            rgb_cloud->points.push_back(point);
-        }
-    }
-
-    rgb_cloud->width = (int)xyz_cloud->points.size();
-    rgb_cloud->height = 1;
-    return rgb_cloud;
+    return point_cloud_xyz_to_xyzrgb(std::move(xyz_cloud));
 }
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_from_txt(std::string file_path) {
