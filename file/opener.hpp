@@ -1,3 +1,4 @@
+#pragma once
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -18,6 +19,8 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 #include <omp.h>
+
+#include "processing/cloud_processing.hpp"
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr
 open_point_cloud_xyz_to_xyzrgb(pcl::PointCloud<pcl::PointXYZ>::Ptr xyz_cloud);
