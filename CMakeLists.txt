@@ -18,7 +18,12 @@ option(ENABLE_TESTS "Build unit tests with doctest" ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(PCL 1.14 REQUIRED)
+# Prefer a system-wide PCL if available, otherwise fall back to the bundled copy
+find_package(PCL QUIET)
+if(NOT PCL_FOUND)
+    set(PCL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/pcl")
+    find_package(PCL REQUIRED NO_DEFAULT_PATH)
+endif()
 find_package(MPI REQUIRED)
 find_package(FLTK REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -46,7 +51,7 @@ set(LCV_SOURCES
 
 add_library(lcv STATIC ${LCV_SOURCES})
 target_compile_features(lcv PUBLIC cxx_std_17)
-target_include_directories(lcv PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(lcv PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${PCL_INCLUDE_DIRS})
 target_link_libraries(lcv PUBLIC ${PCL_LIBRARIES} Boost::thread)
 
 
