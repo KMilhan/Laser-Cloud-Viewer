@@ -110,7 +110,7 @@ tests) each time.
 
 # Scripting-specific
 
-- Prefer `Makefile`-is-everything approach
+- Prefer the `Makefile`-is-everything approach
 
 # C++ -specific
 
@@ -118,7 +118,7 @@ tests) each time.
 - Prefer OpenMP over complex performance gain for the sake of code simplicity.
 - Readability matters
 - Build reproducibility matters.
-- Don't forget C++ is high-level language and is portable.
+- Don't forget C++ is a high-level language and is portable.
 - `doctest` is our choice of testing framework.
 
 # Rust-specific
